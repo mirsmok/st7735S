@@ -59,7 +59,7 @@ void printChar(char c, int x, int y,unsigned char bgR,unsigned char bgG,unsigned
 	}
 }
 
-void printStr(char *st, int x, int y,unsigned char bgR,unsigned char bgG,unsigned char bgB,unsigned char fgR,unsigned char fgG,unsigned char fgB)
+void printStrSt7735S(char *st, int x, int y,color  bg, color fg)
 {
 	int stl, i;
 
@@ -67,7 +67,7 @@ void printStr(char *st, int x, int y,unsigned char bgR,unsigned char bgG,unsigne
 
 
 	for (i=0; i<stl; i++)
-			printChar(*st++, x + (i*(cfont.x_size)), y, bgR,bgG, bgB,fgR, fgG, fgB);
+			printChar(*st++, x + (i*(cfont.x_size)), y, bg.r,bg.g, bg.b,fg.r, fg.g, fg.b);
 }
 
 

@@ -28,7 +28,7 @@ extern "C" {
 #ifndef uint8
 #define uint8 unsigned char
 #endif
- 
+
 /* The data type for one display */
 typedef struct
 {

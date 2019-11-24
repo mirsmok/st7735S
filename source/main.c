@@ -9,7 +9,9 @@
 #include <stdio.h>
 #include <wiringPi.h>
 #include "st7735s.h"
+#include "interface.h"
 #include "DefaultFonts.c"
+#include "interface.c"
 
 int main(int argc, char *argv[])
 {
@@ -25,6 +27,10 @@ int main(int argc, char *argv[])
 	printf("myDisplay: %p\n", myDisplay);
 //
 	lcdst_setInversion(1);
+	setBgColor(50,50,50);
+    	setFgColor(0,255,0);
+	setFrameColor(255,0,255);
+	setTextColor(50,255,50);
 	/* Fill the display */
 //	lcdst_drawScreen(255, 0, 0);
 //	lcdst_drawScreen(0, 255, 0);
@@ -41,19 +47,30 @@ int main(int argc, char *argv[])
 //	lcdst_drawRect(10, 10, 10, 10, 0, 255, 255);
 //	lcdst_drawRect(10, 30, 10, 10, 255, 255, 0);
 //	lcdst_drawFRect(30, 10, 10, 10, 0, 255, 255);
-	lcdst_drawFRect(0, 0, 159, 79, 255, 0, 0);
+	lcdst_drawFRect(0, 0, 159, 79, bgColor.r,bgColor.g,bgColor.b);
 	
-	lcdst_drawHLine(0, 12, 159, 255, 0, 255);
+	//lcdst_drawHLine(0, 12, 159, 255, 0, 255);
 
 	/* Send the raw data */
-	lcdst_setWindow(0, 0, 9, 9);
-	for(uint8 i=0; i<100; i++) lcdst_pushPx(255, 0,255);
-	lcdst_setWindow(0, 0, 127, 159); /* Optional reset */
-	lcdst_drawPx(11,11,0,0,255);
+	//lcdst_setWindow(0, 0, 9, 9);
+	//for(uint8 i=0; i<100; i++) lcdst_pushPx(255, 0,255);
+	//lcdst_setWindow(0, 0, 127, 159); /* Optional reset */
+	//lcdst_drawPx(11,11,0,0,255);
 	
 	/* Uninitialize the display */
 	//lcdst_uninit(myDisplay);
 	setFontst7735S(SmallFont);
-	printStr("0.123456789",10,40,255,0,0,0,255,0);
+	//printStr("0.123456789",10,40,bgColor.r,bgColor.g,bgColor.b,textColor.r,textColor.g,textColor.b);
+	drawFrames();
+	while(1){
+		updateHeatingState(0);
+		updateStatus("SENS:/ OUT:/ ETH:/");
+		delay(500);
+		updateStatus("SENS:- OUT:- ETH:-");
+		delay(500);
+		updateHeatingState(1);
+		updateStatus("SENS:\\ OUT:\\ ETH:\\");
+		delay(500);
+	}	
 	return 0;
 } /* main */

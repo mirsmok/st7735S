@@ -315,6 +315,7 @@ void lcdst_drawVLine(uint8 x, uint8 y, uint8 l, uint8 r, uint8 g, uint8 b)
 	/* Draw the line */
 	if(lcdst_setWindow(x, y, x, y+l-1)) return;
 	while(l--) {writeData(r); writeData(g); writeData(b);}
+	printf("narysowano linie");
 } /* lcdst_drawVLine */
 
 void lcdst_drawFRect(uint8 x, uint8 y, uint8 w, uint8 h,
