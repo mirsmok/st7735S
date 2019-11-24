@@ -254,11 +254,11 @@ uint8 lcdst_setWindow(uint8 x1, uint8 y1, uint8 x2, uint8 y2)
 	y2=y2+26;
 	/* Accept: 0 <= x1 <= x2 < activeDisplay->width */
 	if(x2 < x1) return 1;
-	if(x2 >= activeDisplay->width) return 1;
+//	if(x2 >= activeDisplay->width) return 1;
 	
 	/* Accept: 0 <= y1 <= y2 < activeDisplay->height */
 	if(y2 < y1) return 1;
-	if(y2 >= activeDisplay->height) return 1;
+//	if(y2 >= activeDisplay->height) return 1;
 	
 	/* Set column address */
 	writeCommand(0x2A);
@@ -323,8 +323,8 @@ void lcdst_drawFRect(uint8 x, uint8 y, uint8 w, uint8 h,
 {
 	/* Draw only in the display space */
 	if((w == 0) || (h == 0)) return;
-	if((x+w-1) >= activeDisplay->width)  w = activeDisplay->width  - x;
-	if((y+h-1) >= activeDisplay->height) h = activeDisplay->height - y;
+//	if((x+w-1) >= activeDisplay->width)  w = activeDisplay->width  - x;
+//	if((y+h-1) >= activeDisplay->height) h = activeDisplay->height - y;
 	
 	/* Draw the filed rectangle */
 	if(lcdst_setWindow(x, y, x+w-1, y+h-1)) return;

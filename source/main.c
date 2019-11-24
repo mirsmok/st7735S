@@ -47,8 +47,8 @@ int main(int argc, char *argv[])
 //	lcdst_drawRect(10, 10, 10, 10, 0, 255, 255);
 //	lcdst_drawRect(10, 30, 10, 10, 255, 255, 0);
 //	lcdst_drawFRect(30, 10, 10, 10, 0, 255, 255);
-	lcdst_drawFRect(0, 0, 159, 79, bgColor.r,bgColor.g,bgColor.b);
-	
+	lcdst_drawFRect(0, 0, 161, 80, bgColor.r,bgColor.g,bgColor.b);
+	//lcdst_drawFRect(10, 0, 2, 80, 0,255,255);
 	//lcdst_drawHLine(0, 12, 159, 255, 0, 255);
 
 	/* Send the raw data */
@@ -62,6 +62,7 @@ int main(int argc, char *argv[])
 	setFontst7735S(SmallFont);
 	//printStr("0.123456789",10,40,bgColor.r,bgColor.g,bgColor.b,textColor.r,textColor.g,textColor.b);
 	drawFrames();
+	float temp=21.4444;
 	while(1){
 		updateHeatingState(0);
 		updateStatus("SENS:/ OUT:/ ETH:/");
@@ -71,6 +72,10 @@ int main(int argc, char *argv[])
 		updateHeatingState(1);
 		updateStatus("SENS:\\ OUT:\\ ETH:\\");
 		delay(500);
+		updateHeatingTemp(temp);
+		updateActualTemp(temp);
+		updateSetpointTemp(temp);
+		delay(1000);
 	}	
 	return 0;
 } /* main */
