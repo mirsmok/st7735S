@@ -16,6 +16,10 @@
 sockServ::sockServ(){
 }
 
+void sockServ::setRcvCB( void (*clientCallBack)(char *)){
+	rcvCB=clientCallBack;		
+}
+
 void sockServ::init(int _port,int _max_clients){
 	opt= TRUE;
 	port=_port;
@@ -117,7 +121,7 @@ void sockServ::check(void){
 			(address.sin_port)); 
 		
 		//send new connection greeting message 
-		if( send(new_socket, message, strlen(message), 0) != strlen(message) ) 
+		if( send(new_socket, message, strlen(message), 0) != ((int)strlen(message)) ) 
 		{ 
 			perror("send"); 
 		} 
@@ -166,6 +170,7 @@ void sockServ::check(void){
 				//set the string terminating NULL byte on the end 
 				//of the data read 
 				buffer[valread] = '\0'; 
+				rcvCB(buffer);
 				send(sd , buffer , strlen(buffer) , 0 ); 
 			} 
 		} 

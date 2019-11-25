@@ -1,5 +1,3 @@
-#define TRUE 1 
-#define FALSE 0 
 
 class sockServ
 {
@@ -12,7 +10,9 @@ class sockServ
         	struct sockaddr_in address;
 		struct timeval tv;
         	char buffer[1025]; //data buffer of 1K
+		void (*rcvCB)(char *);
 
+		
         	//set of socket descriptors
         	fd_set readfds;
 		        //a message 
@@ -21,5 +21,5 @@ class sockServ
 
                 void init(int port,int max_clients);
                 void check(void);
-		void (*clientCallBack)(void);
+		void setRcvCB(  void (*clientCallBack)(char *));
 };

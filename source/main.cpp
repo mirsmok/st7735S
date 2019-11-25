@@ -13,11 +13,17 @@
 #include "DefaultFonts.cpp"
 #include "interface.cpp"
 #include "server.cpp"
+#include "dataExchange.cpp"
+#include <string>
+using namespace std;
 
 int main(int argc, char *argv[])
 {
+	//create main class
+	//core IQhome;
 	//server socket for temp sensor
 	sockServ tempSensor;
+	tempSensor.setRcvCB(parseRoomSensorData);
 	//init server max_clients=30 port 8888
 	tempSensor.init(8888,30);
 
@@ -83,7 +89,7 @@ int main(int argc, char *argv[])
 		updateStatus(status3);
 		delay(500);
 		updateHeatingTemp(temp);
-		updateActualTemp(temp);
+		updateActualTemp(roomSensor.actualTemperature);
 		updateSetpointTemp(temp);
 		delay(1000);
 	}	
