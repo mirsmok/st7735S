@@ -1,0 +1,4 @@
+rm -rf lcdtest
+gcc -lwiringPi -Wall -O2 -o lcdtest st7735s.h st7735s.c main.c
+rm -rf lcdtest
+gcc -lwiringPi -Wall -O2 -o lcdtest st7735s.h st7735s.c main.c

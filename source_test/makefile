@@ -7,11 +7,11 @@
 #
 
 OUTNAME=lcdtest
-EXAMPLE=main.c
+EXAMPLE=main.cpp
 
 CC=gcc
 CFLAGS=-Wall -O2
-SOURCES=st7735s.h st7735s.c
+SOURCES=st7735s.h st7735s.cpp 
 LIBS=-lwiringPi
 
 .PHONY: help compile clean run

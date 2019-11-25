@@ -11,7 +11,7 @@ EXAMPLE=main.c
 
 CC=gcc
 CFLAGS=-Wall -O2
-SOURCES=st7735s.h st7735s.c
+SOURCES=st7735s.h st7735s.c server.h server.cpp
 LIBS=-lwiringPi
 
 .PHONY: help compile clean run
@@ -20,7 +20,7 @@ help:
 	@echo "MAKEFILE HELP:\n Use:\n  make compile/run/clean/help"
 
 compile:
-	$(CXX) $(LIBS) $(CFLAGS) -o $(OUTNAME) $(SOURCES) $(EXAMPLE)
+	g++  $(LIBS) $(CFLAGS) -o $(OUTNAME) $(SOURCES) $(EXAMPLE)
 
 clean:
 	rm -rf $(OUTNAME)
