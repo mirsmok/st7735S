@@ -1,7 +1,7 @@
 // DO NOT ADD YOUR OWN FONTS TO THIS FILE
 // If you want to use your own fonts you should just drop the font .c file into your sketch folder.
 // ------------------------------------------------------------------------------------------------
-
+#include <string.h>
 	#define fontdatatype unsigned char
 
 struct _current_font

@@ -10,7 +10,7 @@ class sockServ
                 max_clients  , activity, i , valread, port, sd;
         	int max_sd;
         	struct sockaddr_in address;
-
+		struct timeval tv;
         	char buffer[1025]; //data buffer of 1K
 
         	//set of socket descriptors

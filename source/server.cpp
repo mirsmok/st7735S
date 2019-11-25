@@ -20,7 +20,7 @@ void sockServ::init(int _port,int _max_clients){
 	opt= TRUE;
 	port=_port;
 	max_clients=_max_clients;
-
+	tv.tv_sec = tv.tv_usec = 0;
 	
 	//initialise all client_socket[] to 0 so not checked 
 	for (i = 0; i < max_clients; i++) 
@@ -94,7 +94,7 @@ void sockServ::check(void){
 
 	//wait for an activity on one of the sockets , timeout is NULL , 
 	//so wait indefinitely 
-	activity = select( max_sd + 1 , &readfds , NULL , NULL , NULL); 
+	activity = select( max_sd + 1 , &readfds , NULL , NULL , &tv); 
 
 	if ((activity < 0) && (errno!=EINTR)) 
 	{ 
@@ -171,6 +171,7 @@ void sockServ::check(void){
 		} 
 	} 
 }
+/*
 int main(int argc , char *argv[]) 
 { 
 	sockServ tempSensor;
@@ -182,4 +183,4 @@ int main(int argc , char *argv[])
 	} 
 		
 	return 0; 
-} 
+} */

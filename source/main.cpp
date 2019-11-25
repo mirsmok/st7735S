@@ -10,12 +10,17 @@
 #include <wiringPi.h>
 #include "st7735s.h"
 #include "interface.h"
-#include <csting.h>
-#include "DefaultFonts.c"
-#include "interface.c"
+#include "DefaultFonts.cpp"
+#include "interface.cpp"
+#include "server.cpp"
 
 int main(int argc, char *argv[])
 {
+	//server socket for temp sensor
+	sockServ tempSensor;
+	//init server max_clients=30 port 8888
+	tempSensor.init(8888,30);
+
 	lcdst_t *myDisplay = NULL;
 	
 	/* Initialize the Wiring Pi library */
@@ -64,14 +69,18 @@ int main(int argc, char *argv[])
 	//printStr("0.123456789",10,40,bgColor.r,bgColor.g,bgColor.b,textColor.r,textColor.g,textColor.b);
 	drawFrames();
 	float temp=21.4444;
+	char status1[]="SENS:/ OUT:/ ETH:/";
+	char status2[]="SENS:- OUT:- ETH:-";
+	char status3[]="SENS:\\ OUT:\\ ETH:\\";
 	while(1){
+		tempSensor.check();
 		updateHeatingState(0);
-		updateStatus("SENS:/ OUT:/ ETH:/");
+		updateStatus(status1);
 		delay(500);
-		updateStatus("SENS:- OUT:- ETH:-");
+		updateStatus(status2);
 		delay(500);
 		updateHeatingState(1);
-		updateStatus("SENS:\\ OUT:\\ ETH:\\");
+		updateStatus(status3);
 		delay(500);
 		updateHeatingTemp(temp);
 		updateActualTemp(temp);

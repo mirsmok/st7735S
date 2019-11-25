@@ -31,11 +31,14 @@ void updateStatus(char * message){
 }
 void updateHeatingState(unsigned char state){
 	setFontst7735S(BigFont);
+	char blank[]="   ";
+	char on[]="ON";
+	char off[]="OFF";
 	if(state){
-		printStrSt7735S("   ",25,30,bgColor,textColor);
-		printStrSt7735S("ON ",29,30,bgColor,textColor);
+		printStrSt7735S(blank,25,30,bgColor,textColor);
+		printStrSt7735S(on,29,30,bgColor,textColor);
 	}else{
-		printStrSt7735S("OFF",25,30,bgColor,textColor);
+		printStrSt7735S(off,25,30,bgColor,textColor);
 	}
 }
 void updateHeatingTemp(float temp){
@@ -47,16 +50,18 @@ void updateHeatingTemp(float temp){
 void updateActualTemp(float temp){
 	setFontst7735S(BigFont);
 	char buf[10];
+	char aktualna[]="AKTUALNA";
 	sprintf(buf,"%2.1f",temp);
 	printStrSt7735S(buf,94,30,bgColor,textColor);
 	setFontst7735S(SmallFont);
-	printStrSt7735S("AKTUALNA",94,17,bgColor,textColor);
+	printStrSt7735S(aktualna,94,17,bgColor,textColor);
 }
 void updateSetpointTemp(float temp){
 	setFontst7735S(BigFont);
 	char buf[10];
+	char zadana[]="ZADANA";
 	sprintf(buf,"%2.1f",temp);
 	printStrSt7735S(buf,94,63,bgColor,textColor);
 	setFontst7735S(SmallFont);
-	printStrSt7735S("ZADANA",104,51,bgColor,textColor);
+	printStrSt7735S(zadana,104,51,bgColor,textColor);
 }
