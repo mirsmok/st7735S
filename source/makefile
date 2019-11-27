@@ -10,7 +10,7 @@ OUTNAME=lcdtest
 EXAMPLE=main.cpp
 
 CC=gcc
-CFLAGS=-Wall -O2
+CFLAGS=-Wall 
 SOURCES=st7735s.h st7735s.cpp 
 LIBS=-lwiringPi
 

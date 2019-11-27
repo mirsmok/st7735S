@@ -171,7 +171,8 @@ void sockServ::check(void){
 				//of the data read 
 				buffer[valread] = '\0'; 
 				rcvCB(buffer);
-				send(sd , buffer , strlen(buffer) , 0 ); 
+				//if(strlen(buffer))
+					send(sd , buffer , strlen(buffer) , 0 ); 
 			} 
 		} 
 	} 

@@ -9,7 +9,7 @@ class sockServ
         	int max_sd;
         	struct sockaddr_in address;
 		struct timeval tv;
-        	char buffer[1025]; //data buffer of 1K
+        	char buffer[1024]; //data buffer of 1K
 		void (*rcvCB)(char *);
 
 		
@@ -21,5 +21,5 @@ class sockServ
 
                 void init(int port,int max_clients);
                 void check(void);
-		void setRcvCB(  void (*clientCallBack)(char *));
+		void setRcvCB( void (*clientCallBack)(char *));
 };

@@ -19,13 +19,12 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-	//create main class
-	//core IQhome;
-	//server socket for temp sensor
-	sockServ tempSensor;
-	tempSensor.setRcvCB(parseRoomSensorData);
-	//init server max_clients=30 port 8888
-	tempSensor.init(8888,30);
+	//server socket for temp external device
+	sockServ server;
+	server.setRcvCB(parseData);
+	//init server max_clients=30 port 1500
+	server.init(1500,30);
+	
 
 	lcdst_t *myDisplay = NULL;
 	
@@ -74,24 +73,25 @@ int main(int argc, char *argv[])
 	setFontst7735S(SmallFont);
 	//printStr("0.123456789",10,40,bgColor.r,bgColor.g,bgColor.b,textColor.r,textColor.g,textColor.b);
 	drawFrames();
-	float temp=21.4444;
 	char status1[]="SENS:/ OUT:/ ETH:/";
 	char status2[]="SENS:- OUT:- ETH:-";
 	char status3[]="SENS:\\ OUT:\\ ETH:\\";
 	while(1){
-		tempSensor.check();
-		updateHeatingState(0);
+		//
+		server.check();
+		//check heating ON/OFF
+		heating();
+		//update heating state ON
+		updateHeatingState(status.heatingState);
 		updateStatus(status1);
 		delay(500);
 		updateStatus(status2);
 		delay(500);
-		updateHeatingState(1);
 		updateStatus(status3);
 		delay(500);
-		updateHeatingTemp(temp);
+		updateHeatingTemp(outputModule.actualTemperature);
 		updateActualTemp(roomSensor.actualTemperature);
-		updateSetpointTemp(temp);
-		delay(1000);
+		updateSetpointTemp(settings.heatingSetpoint);
 	}	
 	return 0;
 } /* main */
