@@ -11,10 +11,12 @@
 #include "st7735s.h"
 #include "interface.h"
 #include "DefaultFonts.cpp"
-#include "interface.cpp"
+//#include "interface.cpp"
 #include "server.cpp"
 #include "dataExchange.cpp"
+#include "interface.cpp"
 #include <string>
+#include "cloud.cpp"
 using namespace std;
 
 int main(int argc, char *argv[])
@@ -36,7 +38,8 @@ int main(int argc, char *argv[])
 	
 	/* Print received pointer */
 	printf("myDisplay: %p\n", myDisplay);
-//
+//	
+	configKeyboard();
 	lcdst_setInversion(1);
 	setBgColor(50,50,50);
     	setFgColor(0,255,0);
@@ -74,24 +77,24 @@ int main(int argc, char *argv[])
 	//printStr("0.123456789",10,40,bgColor.r,bgColor.g,bgColor.b,textColor.r,textColor.g,textColor.b);
 	drawFrames();
 	char status1[]="SENS:/ OUT:/ ETH:/";
-	char status2[]="SENS:- OUT:- ETH:-";
-	char status3[]="SENS:\\ OUT:\\ ETH:\\";
+	unsigned int loopCounter=0;
+	settings.heatingSetpoint=21.5;
+	thingspeakConn();
 	while(1){
-		//
-		server.check();
-		//check heating ON/OFF
-		heating();
-		//update heating state ON
-		updateHeatingState(status.heatingState);
-		updateStatus(status1);
-		delay(500);
-		updateStatus(status2);
-		delay(500);
-		updateStatus(status3);
-		delay(500);
-		updateHeatingTemp(outputModule.actualTemperature);
-		updateActualTemp(roomSensor.actualTemperature);
+		if((loopCounter%10)==0){
+			//check if some new data arrive
+			server.check();
+			//check heating conditions
+			heating();
+			updateHeatingState(status.heatingState);
+			updateStatus(status1);
+			updateHeatingTemp(outputModule.actualTemperature);
+			updateActualTemp(roomSensor.actualTemperature);
+		}
 		updateSetpointTemp(settings.heatingSetpoint);
+		checkKeyboard();
+		delay(100);
+		loopCounter++;
 	}	
 	return 0;
 } /* main */

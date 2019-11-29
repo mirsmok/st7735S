@@ -65,7 +65,6 @@ string findTag(string input, string tag){
 
 void parseData(char * buf){
 	string data(buf,strlen(buf));
-	delay(1000);		
 	string returnValue="";
 	string devType=findTag(data,"dev_type");
 	if(devType=="temperatureSensor"){
