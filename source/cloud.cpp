@@ -26,7 +26,7 @@
 
  int putThingspeakData(void)
 {
-	int sockfd;  
+	int sockfd,field6;  
 //	char buf[MAXDATASIZE];
 	struct hostent *he;
 	struct sockaddr_in their_addr; /* connector's address information */
@@ -75,7 +75,11 @@
 		strcat(data,"0");
 	strcat(data,"&field5=");
 	snprintf(ans,10,"%1.2f",roomSensor.batVoltage);
-	strcat(data,ans);	
+	strcat(data,ans);
+	strcat(data,"&field6=");	
+	field6=((int)status.error) | ((int)roomSensor.error << 1) | ((int)outputModule.error <<2);
+	snprintf(ans,10,"%d",field6);
+	strcat(data,ans);
 	strcat(data,"\nHost: api.thingspeak.com\n");
 	if (send(sockfd, data, strlen(data), 0) == -1){
 		perror("send");
