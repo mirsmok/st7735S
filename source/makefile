@@ -6,7 +6,7 @@
 # Standard: GCC-C11
 #
 
-OUTNAME=lcdtest
+OUTNAME=IQhome
 EXAMPLE=main.cpp
 
 CC=gcc

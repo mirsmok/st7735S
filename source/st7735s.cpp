@@ -300,7 +300,7 @@ void lcdst_drawHLine(uint8 x, uint8 y, uint8 l, uint8 r, uint8 g, uint8 b)
 	/* Draw only in the display space */
 	if(l == 0) return;
 	if((x+l-1) >= activeDisplay->width) l = activeDisplay->width - x;
-	printf("l=%d\n",l);
+//	printf("l=%d\n",l);
 	/* Draw the line */
 	if(lcdst_setWindow(x, y, x+l-1, y)) return;
 	while(l--) {writeData(r); writeData(g); writeData(b);}
@@ -315,7 +315,7 @@ void lcdst_drawVLine(uint8 x, uint8 y, uint8 l, uint8 r, uint8 g, uint8 b)
 	/* Draw the line */
 	if(lcdst_setWindow(x, y, x, y+l-1)) return;
 	while(l--) {writeData(r); writeData(g); writeData(b);}
-	printf("narysowano linie");
+//	printf("narysowano linie");
 } /* lcdst_drawVLine */
 
 void lcdst_drawFRect(uint8 x, uint8 y, uint8 w, uint8 h,

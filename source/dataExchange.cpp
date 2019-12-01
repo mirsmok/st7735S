@@ -9,35 +9,8 @@ dataToSend+="<id>2001</id></content>";
 
 */
 #include <string>
+#include "dataExchange.h"
 using namespace std;
-struct temperatureSensorData {
-	int RSSI;
-	string devType;
-	float batVoltage;
-	float actualTemperature;
-	string id;
-} roomSensor;
-
-struct outputModuleData {
-	int RSSI;
-	string devType;
-	string state;
-	float actualTemperature;
-	float setpointTemperature;
-	string id;
-} outputModule;
-
-struct systemSettings{
-	float heatingSetpoint;
-	float heatingHist;
-}settings;
-
-struct systemStatus{
-	bool heatingState;
-	bool ethState;
-	bool sensState;
-	bool outputState;
-}status;
 
 void heating(void){
 	if(roomSensor.actualTemperature < (settings.heatingSetpoint-settings.heatingHist))
@@ -64,8 +37,10 @@ string findTag(string input, string tag){
 }
 
 void parseData(char * buf){
+//	printf("\notrzymano dane");
 	string data(buf,strlen(buf));
 	string returnValue="";
+//	printf("\ndane: %s",data.c_str());
 	string devType=findTag(data,"dev_type");
 	if(devType=="temperatureSensor"){
 		if(findTag(data,"dev_type")!="")
@@ -79,6 +54,8 @@ void parseData(char * buf){
 		if(findTag(data,"id")!="")
 			roomSensor.id=findTag(data,"id");
 		strcpy(buf, returnValue.c_str());
+		roomSensor.error=false;
+		roomSensor.timeoutTimer=0;
 	}
 	if(devType=="outputModule"){
 		if(findTag(data,"RSSI")!="")
@@ -96,8 +73,7 @@ void parseData(char * buf){
 		char ans[10];
 		snprintf(ans,10,"%2.1f",settings.heatingSetpoint);
 		returnValue+=ans;
-		returnValue+="</setpointTemperature><roomTemperature";
-		returnValue+=
+		returnValue+="</setpointTemperature><roomTemperature>";
 		snprintf(ans,10,"%2.1f",roomSensor.actualTemperature);
 		returnValue+=ans;
 		if(status.heatingState)
@@ -105,6 +81,8 @@ void parseData(char * buf){
 		else
 			returnValue+="</roomTemperature><outputState>OFF</outputState></content>";
 		strcpy(buf,returnValue.c_str());
+		outputModule.error=false;
+		outputModule.timeoutTimer=0;
 	}
 	if(devType=="remoteConsole"){
 		if(findTag(data,"setpoint")!=""){

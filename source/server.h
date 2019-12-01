@@ -16,7 +16,6 @@ class sockServ
         	//set of socket descriptors
         	fd_set readfds;
 		        //a message 
-		const char *message = "ECHO Daemon v1.0 \r\n";
 
 
                 void init(int port,int max_clients);

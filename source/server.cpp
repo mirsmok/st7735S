@@ -121,12 +121,12 @@ void sockServ::check(void){
 			(address.sin_port)); 
 		
 		//send new connection greeting message 
-		if( send(new_socket, message, strlen(message), 0) != ((int)strlen(message)) ) 
-		{ 
-			perror("send"); 
-		} 
+//		if( send(new_socket, message, strlen(message), 0) != ((int)strlen(message)) ) 
+//		{ 
+//			perror("send"); 
+//		} 
 			
-		puts("Welcome message sent successfully"); 
+//		puts("Welcome message sent successfully"); 
 			
 		//add new socket to array of sockets 
 		for (i = 0; i < max_clients; i++) 
@@ -145,14 +145,17 @@ void sockServ::check(void){
 	//else its some IO operation on some other socket 
 	for (i = 0; i < max_clients; i++) 
 	{ 
+//		printf("\nsprawdzam socket %i",i);
 		sd = client_socket[i]; 
 			
 		if (FD_ISSET( sd , &readfds)) 
 		{ 
+//			printf("\ndeskryptor ustawiony dla socketu %i",i);
 			//Check if it was for closing , and also read the 
 			//incoming message 
 			if ((valread = read( sd , buffer, 1024)) == 0) 
 			{ 
+//				printf("zamkniecie socketu %i",i);
 				//Somebody disconnected , get his details and print 
 				getpeername(sd , (struct sockaddr*)&address ,  
 					(socklen_t*)&addrlen); 
@@ -167,12 +170,14 @@ void sockServ::check(void){
 			//Echo back the message that came in 
 			else
 			{ 
+//				printf("\nnowe dane dla socketu %i ilosc %i",i,valread);
 				//set the string terminating NULL byte on the end 
 				//of the data read 
-				buffer[valread] = '\0'; 
-				rcvCB(buffer);
-				//if(strlen(buffer))
-					send(sd , buffer , strlen(buffer) , 0 ); 
+				if(valread>0){	
+					buffer[valread] = '\0'; 
+					rcvCB(buffer);
+					send(sd , buffer , strlen(buffer) , 0 );
+				}	
 			} 
 		} 
 	} 

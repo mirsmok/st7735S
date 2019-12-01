@@ -3,4 +3,4 @@
 	unsigned char r,g,b;
 } color;
 
-color bgColor,fgColor,frameColor,textColor;
+color bgColor,fgColor,frameColor,textColor,errorColor;

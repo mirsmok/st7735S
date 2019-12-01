@@ -24,14 +24,16 @@
 
     #define MAXDATASIZE 100 /* max number of bytes we can get at once */
 
- void thingspeakConn(void)
+ int putThingspeakData(void)
 {
-	int sockfd, numbytes;  
-	char buf[MAXDATASIZE];
+	int sockfd;  
+//	char buf[MAXDATASIZE];
 	struct hostent *he;
 	struct sockaddr_in their_addr; /* connector's address information */
-	char * dest = "api.thingspeak.com";
-	char * writeAPIKey = "GVU85RRPYXGN35LS";
+
+	char  dest[] = "api.thingspeak.com";
+	char data[200];
+	data[0]='\0';
 //	if (argc != 2) {
 //		fprintf(stderr,"usage: client hostname\n");
 //		exit(1);
@@ -39,12 +41,12 @@
 
 	if ((he=gethostbyname(dest)) == NULL) {  /* get the host info */
 		herror("gethostbyname");
-		exit(1);
+		return -1;
 	}
 
 	if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
 		perror("socket");
-		exit(1);
+		return -1;
 	}
 
 	their_addr.sin_family = AF_INET;      /* host byte order */
@@ -54,24 +56,40 @@
 
 	if (connect(sockfd, (struct sockaddr *)&their_addr, sizeof(struct sockaddr)) == -1) {
 		perror("connect");
-		exit(1);
+		return -1;
 	}
-//	while (1) {
-	char * data="GET https://api.thingspeak.com/update?api_key=LKNC7IOPA202T4QW&field1=21.2\nHost: api.thingspeak.com\n";
+	strcat(data,"GET https://api.thingspeak.com/update?api_key=LKNC7IOPA202T4QW&field1=");
+	char ans[10];
+	snprintf(ans,10,"%2.1f",settings.heatingSetpoint)	;
+	strcat(data,ans);
+	strcat(data,"&field2=");
+	snprintf(ans,10,"%2.1f",roomSensor.actualTemperature);
+	strcat(data,ans);
+	strcat(data,"&field3=");
+	snprintf(ans,10,"%2.1f",outputModule.actualTemperature);
+	strcat(data,ans);
+	strcat(data,"&field4=");
+	if(strcmp(outputModule.state.c_str(),"ON")==0) 
+		strcat(data,"1");
+	else
+		strcat(data,"0");
+	strcat(data,"&field5=");
+	snprintf(ans,10,"%1.2f",roomSensor.batVoltage);
+	strcat(data,ans);	
+	strcat(data,"\nHost: api.thingspeak.com\n");
 	if (send(sockfd, data, strlen(data), 0) == -1){
 		perror("send");
-		exit (1);
+		return -1;
 	}
-	printf("After the send function \n");
-	sleep(1);
-	if ((numbytes=recv(sockfd, buf, MAXDATASIZE, 0)) == -1) {
-		perror("recv");
-		exit(1);
-	}	
+//	printf("After the send function \n");
+//	sleep(1);
+//	if ((numbytes=recv(sockfd, buf, MAXDATASIZE, 0)) == -1) {
+//		perror("recv");
+//		exit(1);
+//	}	
 
-	buf[numbytes] = '\0';
-	printf("Received in pid=%d, text=: %s \n",getpid(), buf);
-//	}
-	close(sockfd);
-
+//	buf[numbytes] = '\0';
+//	printf("Received in pid=%d, text=: %s \n",getpid(), buf);
+//	close(sockfd);
+	return 1;
 }
